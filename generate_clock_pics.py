@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+import sys
 
 def create_clock(angle1, angle2, angle3, filename):
 	plt.figure(figsize=(10,10))
@@ -38,9 +39,21 @@ def create_clock(angle1, angle2, angle3, filename):
 def main():
 	if not os.path.exists('./clocks'):
 		os.mkdir('./clocks')
+		
+	sparse = False
+	if len(sys.argv) > 1:
+		sparse = int(sys.argv[1])
+	
+	if sparse:
+		minute_sparsity = 5
+		second_sparsity = 10
+	else:
+		minute_sparsity = 1
+		second_sparsity = 1
+
 	for hour in range(0,12):
-		for minute in range(0,60):
-			for second in range(0,60):
+		for minute in range(0,60, minute_sparsity):
+			for second in range(0,60, second_sparsity):
 				hour_angle = 30*( hour + minute/60 + second/3600) 
 				minute_angle = 6*( minute + second/60)
 				second_angle = 6*second
